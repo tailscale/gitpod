@@ -16,4 +16,5 @@ COPY tailscaled /etc/init.d
 COPY --from=builder /go/bin/tailscaled /usr/sbin/tailscaled
 COPY --from=builder /go/bin/tailscale /usr/bin/tailscale
 
-RUN mkdir -p /var/run/tailscale /var/cache/tailscale /var/lib/tailscale
+RUN mkdir -p /run/tailscale /var/cache/tailscale /var/lib/tailscale
+RUN chown gitpod:gitpod /run/tailscale /var/cache/tailscale /var/lib/tailscale
