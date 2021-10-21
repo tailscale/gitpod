@@ -1,20 +1,18 @@
-FROM golang:1.17.2-bullseye AS builder
-
-# Magic DNS in a container where /etc/resolv.conf is a bind mount needed
-# extra support, currently on a development branch.
-WORKDIR /go/src/tailscale
-COPY . ./
-RUN git clone https://github.com/tailscale/tailscale.git && cd tailscale && \
-    git checkout dgentry/dns-copy && go mod download && \
-    go install -mod=readonly ./cmd/tailscaled ./cmd/tailscale
-COPY . ./
-
 FROM gitpod/workspace-full:latest
 RUN brew install fzf
-USER root
-COPY tailscaled /etc/init.d
-COPY --from=builder /go/bin/tailscaled /usr/sbin/tailscaled
-COPY --from=builder /go/bin/tailscale /usr/bin/tailscale
 
+RUN mkdir /tmp/tsdownload
+ENV TSFILE=tailscale_1.16.1_amd64.tgz
+RUN wget -O- -q https://pkgs.tailscale.com/stable/${TSFILE} | \
+  tar -xz -f - --strip-components=1 -C /tmp/tsdownload
+
+USER root
+COPY tailscale.sh /usr/sbin/tailscale.sh
+RUN mv /tmp/tsdownload/tailscaled /usr/sbin/tailscaled && \
+    mv /tmp/tsdownload/tailscale /usr/bin/tailscale && \
+    rm -rf /tmp/tsdownload
 RUN mkdir -p /run/tailscale /var/cache/tailscale /var/lib/tailscale
 RUN chown gitpod:gitpod /run/tailscale /var/cache/tailscale /var/lib/tailscale
+ENV ALL_PROXY=socks5://localhost:1055/
+ENV HTTP_PROXY=localhost:1080
+ENV http_proxy=localhost:1080

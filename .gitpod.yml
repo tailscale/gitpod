@@ -4,8 +4,5 @@ vscode:
   extensions:
     - golang.go
 tasks:
-  - name: Environment variables to use tailscaled as a proxy
-    env:
-      ALL_PROXY: socks5://localhost:1055/
-      HTTP_PROXY: localhost:1080
-      http_proxy: localhost:1080
+  - name: Tailscale
+    before: /usr/sbin/tailscale.sh start
