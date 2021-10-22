@@ -5,4 +5,4 @@ vscode:
     - golang.go
 tasks:
   - name: Tailscale
-    before: /usr/sbin/tailscale.sh start
+    before: service tailscaled start
