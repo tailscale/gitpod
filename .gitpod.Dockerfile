@@ -11,12 +11,12 @@ RUN wget -O- -q https://pkgs.tailscale.com/stable/${TSFILE} | \
   tar -xz -f - --strip-components=1 -C /tmp/tsdownload
 
 USER root
-RUN apt-get -y install kmod strace
 COPY tailscaled.service /etc/init.d/tailscaled
 RUN mv /tmp/tsdownload/tailscaled /usr/sbin/tailscaled && \
     mv /tmp/tsdownload/tailscale /usr/bin/tailscale && \
     rm -rf /tmp/tsdownload
 RUN mkdir -p /run/tailscale /var/cache/tailscale /var/lib/tailscale
 RUN chown gitpod:gitpod /run/tailscale /var/cache/tailscale /var/lib/tailscale
-RUN curl -o /usr/bin/slirp4netns -fsSL https://github.com/rootless-containers/slirp4netns/releases/download/v1.1.12/slirp4netns-x86_64 \
-    && chmod +x /usr/bin/slirp4netns
+ENV ALL_PROXY=socks5://localhost:1055/
+ENV HTTP_PROXY=localhost:1080
+ENV http_proxy=localhost:1080
