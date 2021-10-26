@@ -16,7 +16,3 @@ RUN mv /tmp/tsdownload/tailscaled /usr/sbin/tailscaled && \
     mv /tmp/tsdownload/tailscale /usr/bin/tailscale && \
     rm -rf /tmp/tsdownload
 RUN mkdir -p /run/tailscale /var/cache/tailscale /var/lib/tailscale
-RUN chown gitpod:gitpod /run/tailscale /var/cache/tailscale /var/lib/tailscale
-ENV ALL_PROXY=socks5://localhost:1055/
-ENV HTTP_PROXY=localhost:1080
-ENV http_proxy=localhost:1080

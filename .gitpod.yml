@@ -6,8 +6,4 @@ vscode:
 tasks:
   - name: Tailscale
     before: service tailscaled start
-ports:
-  - port: 1055
-    onOpen: ignore
-  - port: 1080
-    onOpen: ignore
+experimentalNetwork: true
