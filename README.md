@@ -6,4 +6,6 @@ You need to create a [Reusable Authkey](https://login.tailscale.com/admin/settin
 for your Tailnet and add it as a [Gitpod Variable](https://gitpod.io/variables)
 named `TAILSCALE_AUTHKEY`.
 
+See [Tailscale documentation](https://tailscale.com/kb/1161/gitpod-io/).
+
 Then launch your Gitpod!

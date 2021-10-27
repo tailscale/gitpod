@@ -4,6 +4,11 @@ vscode:
   extensions:
     - golang.go
 tasks:
-  - name: Tailscale
-    before: service tailscaled start
+  - name: tailscaled
+    command: |
+      sudo tailscaled
+  - name: tailscale
+    command: |
+      sudo -E tailscale up --hostname "gitpod-$GITPOD_WORKSPACE_ID" \
+                           --authkey "${TAILSCALE_AUTHKEY}"
 experimentalNetwork: true
